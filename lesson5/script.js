@@ -55,3 +55,29 @@ async function deleteUser(userId) {
 }
 
 getData(url);
+
+const apiUrl = 'https://dog.ceo/api/breeds/image/random/10';
+const dogImagesContainer = document.getElementById('dog-images-container');
+
+async function fetchDogImages() {
+  try {
+    const result = await fetch(apiUrl);
+    const data = await result.json();
+    displayDogImages(data.message);
+  } catch (error) {
+    console.error('Failed to fetch dog images');
+  }
+}
+
+function displayDogImages(images) {
+  dogImagesContainer.innerHTML = '';
+  images.forEach((imageUrl) => {
+    const img = document.createElement('img');
+    img.src = imageUrl;
+    img.alt = 'Dog Image';
+    dogImagesContainer.appendChild(img);
+  });
+}
+
+setInterval(fetchDogImages, 3000);
+fetchDogImages();
